@@ -38,15 +38,6 @@
                     </li>
                 </ul>
                 @auth
-                @if(auth()->user()->name == 'admin')
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="btn btn-primary rounded-pill" href="/admin">&nbsp;<i
-                                class="fas fa-user"></i>&nbsp; {{
-                            auth()->user()->name }}</a>
-                    </li>
-                </ul>
-                @else
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
                         <a class="btn btn-primary rounded-pill" href="/userAccount">&nbsp;<i
@@ -54,7 +45,6 @@
                             auth()->user()->name }}</a>
                     </li>
                 </ul>
-                @endif
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <a class="btn btn-secondary rounded-pill mx-3 " href="/logout">Logout</a>
@@ -70,25 +60,85 @@
             </div>
         </div>
     </nav>
-    <section id="shop">
+    <section id="create-product">
         <div class="container">
-            <h1 class="my-5">Check out our sales for popular products</h1>
-            
-            <div class="row">
-                @foreach($catalogue as $item)
-                <div class="col-md-4">
-                    <div class="card mb-4">
-                        <img src="{{ asset('/storage/' . $item->image_path) }}" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">{{$item['name']}}</h5>
-                            <p class="card-text">30% off</p>
-                            <p class="card-text">Rs.{{$item['price']}}</p>
-                            <a href="#" class="btn btn-primary">Buy Now</a>
-                        </div>
+            @auth
+            <div class="container my-5">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Create Product</h5>
+
+                        <form action="/create-product" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="title" name="name"
+                                    placeholder="Enter post title">
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Product Description</label>
+                                <input type="text" class="form-control" id="title" name="description"
+                                    placeholder="Enter description">
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Product Price</label>
+                                <input type="number" class="form-control" id="title" name="price"
+                                    placeholder="Enter post title">
+                            </div>
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Product Image</label>
+                                <input type="file" class="form-control" id="title" name="image" 
+                                    placeholder="Enter post title" acccept="image/*">
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary">Save Post</button>
+                        </form>
+
                     </div>
                 </div>
-                @endforeach
             </div>
+            <div class="container my-5">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <h5 class="card-title">Available Products</h5>
+                        <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Item Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Price</th>
+                <th scope="col">Image</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($catalogue as $item)
+            <tr>
+                <td>{{ $item->name }}</td>
+                <td>{{ $item->description }}</td>
+                <td>Rs. {{ $item->price }}</td>
+                <td>
+                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}" class="img-thumbnail" width="100">
+                </td>
+                <td>
+                <div class="d-flex align-items-center"><a href="/edit-product/{{$item->id}}" class="btn btn-secondary mr-2">Edit</a>
+                    <form action="delete-product/{{$item->id}}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button class="btn btn-danger mx-3">Delete</button>
+                    </form></div></td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+
+                        
+                    </div>
+                </div>
+            </div>
+            @else
+            <script>location.href = "/signin"</script>
+            @endauth
         </div>
     </section>
 

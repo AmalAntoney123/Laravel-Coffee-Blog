@@ -27,11 +27,13 @@ class UserController extends Controller
         ]);
         if (Auth()->attempt($incomingFiels)) {
             $request->session()->regenerate();
+            if(Auth()->user()->name === "admin")
+                return redirect('/admin');
         }
         return redirect('/userAccount');
     }
     public function logout(){
         Auth()->logout();
-        return redirect('/');
+        return redirect('/signin');
     }
 }

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CatalogueController;
+use App\Models\Catalogue;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +28,8 @@ Route::get('/signup', function () {
     return view('signup');
 });
 Route::get('/shop', function () {
-    return view('shop');
+    $catalogue = Catalogue::all();
+    return view('shop')->with('catalogue', $catalogue);
 });
 Route::get('/home', function () {
     return view('home');
@@ -44,6 +47,11 @@ Route::get('/userAccount', function () {
 Route::get('/create-blog', function () {
     return view('create-blog');
 });
+Route::get('/admin', function () {
+    
+    $catalogue = Catalogue::all();
+    return view('admin')->with('catalogue', $catalogue);
+});
 
 Route::post('/register', [UserController::class,'register']);
 Route::get('/logout', [UserController::class,'logout']);
@@ -53,3 +61,10 @@ Route::post('/create-post', [PostController::class,'createPost']);
 Route::get('/edit-post/{post}', [PostController::class,'showEditScreen']);
 Route::put('/edit-post/{post}', [PostController::class,'updatePost']);
 Route::delete('/delete-post/{post}', [PostController::class,'deletePost']);
+
+Route::post('/create-product', [CatalogueController::class,'createproduct']);
+Route::get('/edit-product/{product}', [CatalogueController::class,'showItemEditScreen']);
+Route::put('/edit-product/{product}', [CatalogueController::class,'updateproduct']);
+Route::delete('/delete-product/{product}', [CatalogueController::class,'deleteproduct']);
+
+Route::post('/create-product', [CatalogueController::class,'createCatalogue']);
