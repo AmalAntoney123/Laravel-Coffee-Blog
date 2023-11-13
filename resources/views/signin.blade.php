@@ -82,6 +82,11 @@
                         <form action="/login" method="POST">
                             @csrf
                             <!-- Email input -->
+                            @if (session('error'))
+                                <div class="alert alert-danger">
+                                    {{ session('error') }}
+                                </div>
+                            @endif
                             <div class="form-outline mb-4">
                                 <input type="text" id="form2Example1" class="form-control" name="name" />
                                 <label class="form-label" for="form2Example1">Name</label>

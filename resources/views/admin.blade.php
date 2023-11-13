@@ -13,8 +13,6 @@
     </script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
     <style>
-        /* .navtext { margin-top:
-6px; } */
         .coffeetext1 {
             margin-top: 100px;
         }
@@ -72,7 +70,11 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <h5 class="card-title">Create Product</h5>
-
+                            @if (session('productadd'))
+                                <div class="alert alert-success">
+                                    {{ session('productadd') }}
+                                </div>
+                            @endif
                             <form action="/create-product" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3">
@@ -106,6 +108,11 @@
                     <div class="card bg-light">
                         <div class="card-body">
                             <h5 class="card-title">Available Products</h5>
+                            @if (session('productupdate'))
+                                <div class="alert alert-success">
+                                    {{ session('productupdate') }}
+                                </div>
+                            @endif
                             <table class="table">
                                 <thead>
                                     <tr>

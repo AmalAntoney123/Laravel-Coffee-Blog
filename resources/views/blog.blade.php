@@ -73,6 +73,11 @@
                     </div>
                 </div>
             </div>
+            @if (session('blogadd'))
+                <div class="alert alert-success">
+                    {{ session('blogadd') }}
+                </div>
+            @endif
             @foreach ($posts as $post)
                 <div class="blog-card">
                     <div class="blog-card-body bg-light rounded m-3 p-3">

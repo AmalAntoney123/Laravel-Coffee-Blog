@@ -29,8 +29,13 @@ class UserController extends Controller
             $request->session()->regenerate();
             if(Auth()->user()->name === "admin")
                 return redirect('/admin');
+            else
+                return redirect('/userAccount');
+        } else {
+            // Add a flash message for unsuccessful login
+            return redirect('/signin')->with('error', 'Invalid credentials. Please try again.');
         }
-        return redirect('/userAccount');
+        
     }
     public function logout(){
         Auth()->logout();

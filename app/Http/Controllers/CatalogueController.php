@@ -23,7 +23,8 @@ class CatalogueController extends Controller
             'price' => $request->input('price'),
             'image_path' => $imagePath,
         ]);
-        return redirect('/admin');
+
+        return redirect('/admin')->with('productadd', 'Product Added Successfully');
     }
     public function showItemEditScreen(Catalogue $product)
     {
@@ -54,7 +55,8 @@ class CatalogueController extends Controller
                 'image_path' => $imagePath,
             ]);
             
-        }return redirect('/admin');
+        }
+        return redirect('/admin')->with('productupdate', 'Product Updated Successfully');
     }
     public function deleteproduct(Catalogue $product)
     {
