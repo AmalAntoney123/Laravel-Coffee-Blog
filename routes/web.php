@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\CatalogueController;
+use App\Http\Controllers\StripeController;
 use App\Models\Catalogue;
 use App\Models\Post;
 use Illuminate\Support\Facades\Route;
@@ -41,17 +42,30 @@ Route::get('/blog', function () {
 });
 Route::get('/userAccount', function () {
     $posts = auth()->user()->userPosts()->latest()->get();
+    
+    $user = Auth::user();
+    $orders = $user->payments;
     // $posts = Post::all();
-    return view('userAccount')->with('posts', $posts);
+    return view('userAccount')->with(['posts' => $posts, 'orders' => $orders]);
+
 });
 Route::get('/create-blog', function () {
     return view('create-blog');
 });
+
 Route::get('/admin', function () {
     
     $catalogue = Catalogue::all();
     return view('admin')->with('catalogue', $catalogue);
 });
+
+Route::get('/checkoutSuccess', function () {
+    return view('checkoutSuccess');
+});
+Route::get('/cart', [StripeController::class,'index'])->name('cart');
+Route::post('/checkout', [StripeController::class,'checkout'])->name('checkout');
+Route::get('/success/{product_id}', [StripeController::class,'success'])->name('success');
+
 
 Route::post('/register', [UserController::class,'register']);
 Route::get('/logout', [UserController::class,'logout']);
