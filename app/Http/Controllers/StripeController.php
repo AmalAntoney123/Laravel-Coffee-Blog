@@ -16,6 +16,9 @@ class StripeController extends Controller
     }
     public function checkout(Request $request)
     {
+        if (!auth()->check()) {
+            return redirect('/signin')->with('paysign', 'Signin and try again.');
+        }
         $productId = $request->input('id');
         $product = Catalogue::find($productId);
         \Stripe\Stripe::setApiKey(config('stripe.sk'));

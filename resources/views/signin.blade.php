@@ -87,6 +87,11 @@
                                     {{ session('error') }}
                                 </div>
                             @endif
+                            @if (session('paysign'))
+                                <div class="alert alert-warning">
+                                    {{ session('paysign') }}
+                                </div>
+                            @endif
                             <div class="form-outline mb-4">
                                 <input type="text" id="form2Example1" class="form-control" name="name" />
                                 <label class="form-label" for="form2Example1">Name</label>
